@@ -115,19 +115,6 @@ contract SchoolManagement {
         feeByLevel[level] = newFee;
     }
 
-    // Manual update for offchain payments (keeps your requirement)
-    function markStudentPaid(uint256 studentId, uint256 amount, uint64 paidAt) external onlyOwner {
-        Student storage s = students[studentId];
-        require(s.wallet != address(0), "Student not found");
-        require(!s.feePaid, "Already paid");
-
-        s.feePaid = true;
-        s.feePaidAmount = amount;
-        s.feePaidAt = paidAt;
-
-        emit StudentFeeMarked(studentId, amount, paidAt);
-    }
-
     // Register student (fee on registration)
     function registerStudent(string calldata name, address wallet, Level level)
         external
